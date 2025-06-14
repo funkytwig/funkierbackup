@@ -45,23 +45,19 @@ How It Works
     Upon successful completion, the temporary directory is atomically renamed to the final directory.
 
 2. Backup Promotion
-Hourly to Daily:
-1. Runs daily just after midnight.
-2. Finds the latest hourly backup from the previous day (the directory with _H suffix).
-3. Renames it by replacing _H with _D, marking it as a daily backup.
+Hourly to Daily: Runs daily just after midnight.
+1. Finds the latest hourly backup from the previous day (the directory with _H suffix).
+2. Renames it by replacing _H with _D, marking it as a daily backup.
 
-Daily to Monthly:
-1. Runs monthly on the 1st day.
-2. Finds the latest daily backup from the previous month (directories with _D suffix).
-3. Renames it by replacing _D with _M, marking it as a monthly backup.
+Daily to Monthly: Runs monthly on the 1st day.
+1. Finds the latest daily backup from the previous month (directories with _D suffix).
+2. Renames it by replacing _D with _M, marking it as a monthly backup.
 
-Monthly to Yearly:
-1. Runs yearly on January 1st.
+Monthly to Yearly: Runs yearly on January 1st.
 2. Finds the latest monthly backup from the previous year (directories with _M suffix).
-3. Renames it by replacing _M with _Y, marking it as a yearly backup.
+1. Renames it by replacing _M with _Y, marking it as a yearly backup.
 
-3. Cleanup / Retention
-The script deletes backups older than the retention window:
+Cleanup / Retention: The script deletes backups older than the retention window:
 1. Deletes hourly backups older than the 24 newest.
 2. Deletes daily backups older than the 32 newest.
 3. Deletes monthly backups older than the 13 newest.
