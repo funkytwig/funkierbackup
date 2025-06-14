@@ -45,38 +45,38 @@ How It Works
     Upon successful completion, the temporary directory is atomically renamed to the final directory.
 
 2. Backup Promotion
-    Hourly to Daily:
-        Runs daily just after midnight.
-        Finds the latest hourly backup from the previous day (the directory with _H suffix).
-        Renames it by replacing _H with _D, marking it as a daily backup.
+Hourly to Daily:
+1. Runs daily just after midnight.
+2. Finds the latest hourly backup from the previous day (the directory with _H suffix).
+3. Renames it by replacing _H with _D, marking it as a daily backup.
 
-    Daily to Monthly:
-        Runs monthly on the 1st day.
-        Finds the latest daily backup from the previous month (directories with _D suffix).
-        Renames it by replacing _D with _M, marking it as a monthly backup.
+Daily to Monthly:
+1. Runs monthly on the 1st day.
+2. Finds the latest daily backup from the previous month (directories with _D suffix).
+3. Renames it by replacing _D with _M, marking it as a monthly backup.
 
-    Monthly to Yearly:
-        Runs yearly on January 1st.
-        Finds the latest monthly backup from the previous year (directories with _M suffix).
-        Renames it by replacing _M with _Y, marking it as a yearly backup.
+Monthly to Yearly:
+1. Runs yearly on January 1st.
+2. Finds the latest monthly backup from the previous year (directories with _M suffix).
+3. Renames it by replacing _M with _Y, marking it as a yearly backup.
 
 3. Cleanup / Retention
-    The script deletes backups older than the retention window:
-        Deletes hourly backups older than the 24 newest.
-        Deletes daily backups older than the 32 newest.
-        Deletes monthly backups older than the 13 newest.
-    Yearly backups (_Y) are retained indefinitely.
+The script deletes backups older than the retention window:
+1. Deletes hourly backups older than the 24 newest.
+2. Deletes daily backups older than the 32 newest.
+3. Deletes monthly backups older than the 13 newest.
+4. Yearly backups (_Y) are retained indefinitely.
 
 4. Logging
     All script output and errors are redirected to /var/log/backups.log with timestamps for easy monitoring and troubleshooting.
 
 Usage
 Prerequisites
-    Bash shell (#!/bin/bash)
-    rsync installed and accessible in the environment.
-    Permissions to read the source directory and write to the destination.
-    Write permission for /var/log/backups.log.
-    Cron daemon for scheduling.
+1. Bash shell (#!/bin/bash)
+2. rsync installed and accessible in the environment.
+3. Permissions to read the source directory and write to the destination.
+4. Write permission for /var/log/backups.log.
+5. Cron daemon for scheduling.
 
 Configuration
 Edit the script variables near the top:
@@ -114,8 +114,8 @@ Example Cron Jobs
 30 0 1 1 * /path/to/backup.sh promote_monthly_to_yearly
 
 Notes
-    Ensure the backup destination ($DEST) has sufficient disk space.
-    Script assumes backup runs on a single machine with a local or mounted destination.
-    Adjust retention periods in the script as needed.
-    Use logrotate or another log management tool to rotate /var/log/backups.log.
-    The promotion strategy ensures backups “roll up” cleanly from hourly to yearly without overlapping or losing data.
+1. Ensure the backup destination ($DEST) has sufficient disk space.
+2. Script assumes backup runs on a single machine with a local or mounted destination.
+3. Adjust retention periods in the script as needed.
+4. Use logrotate or another log management tool to rotate /var/log/backups.log.
+5. The promotion strategy ensures backups “roll up” cleanly from hourly to yearly without overlapping or losing data.
