@@ -49,24 +49,24 @@ Key Features
 1. Finds the latest hourly backup from the previous day (the directory with _H suffix).
 2. Renames it by replacing _H with _D, marking it as a daily backup.
 
-###Daily to Monthly: Runs monthly on the 1st day.
+### Daily to Monthly: Runs monthly on the 1st day.
 1. Finds the latest daily backup from the previous month (directories with _D suffix).
 2. Renames it by replacing _D with _M, marking it as a monthly backup.
 
-###Monthly to Yearly: Runs yearly on January 1st.
+### Monthly to Yearly: Runs yearly on January 1st.
 2. Finds the latest monthly backup from the previous year (directories with _M suffix).
 1. Renames it by replacing _M with _Y, marking it as a yearly backup.
 
-###Cleanup / Retention: The script deletes backups older than the retention window:
+### Cleanup / Retention: The script deletes backups older than the retention window:
 1. Deletes hourly backups older than the 24 newest.
 2. Deletes daily backups older than the 32 newest.
 3. Deletes monthly backups older than the 13 newest.
 4. Yearly backups (_Y) are retained indefinitely.
 
-##Logging
+## Logging
     All script output and errors are redirected to /var/log/backups.log with timestamps for easy monitoring and troubleshooting.
 
-##Usage
+## Usage
 Prerequisites
 1. Bash shell (#!/bin/bash)
 2. rsync installed and accessible in the environment.
@@ -74,7 +74,7 @@ Prerequisites
 4. Write permission for /var/log/backups.log.
 5. Cron daemon for scheduling.
 
-##Configuration
+## Configuration
 Edit the script variables near the top:
 
 SRC="/path/to/source"
