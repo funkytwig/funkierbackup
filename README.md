@@ -97,16 +97,16 @@ The script accepts optional commands for promotions and cleanup:
 
 Example Cron Jobs
 
-# Hourly backup + cleanup at 5 minutes past each hour
+\# Hourly backup + cleanup at 5 minutes past each hour
 5 * * * * /path/to/backup.sh
 
-# Promote hourly backups to daily at 00:10 daily
+\# Promote hourly backups to daily at 00:10 daily
 10 0 * * * /path/to/backup.sh promote_hourly_to_daily
 
-# Promote daily backups to monthly at 00:20 on the 1st of each month
+\# Promote daily backups to monthly at 00:20 on the 1st of each month
 20 0 1 * * /path/to/backup.sh promote_daily_to_monthly
 
-# Promote monthly backups to yearly at 00:30 on Jan 1st each year
+\# Promote monthly backups to yearly at 00:30 on Jan 1st each year
 30 0 1 1 * /path/to/backup.sh promote_monthly_to_yearly
 
 Notes
