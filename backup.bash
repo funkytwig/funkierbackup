@@ -1,20 +1,20 @@
 #!/bin/bash
 set -euo pipefail
 
-LOGFILE="/var/log/backups.log"
+source vars.inc.bash
 
 # Redirect all output and errors to logfile with timestamps
 exec > >(while IFS= read -r line; do echo "$(date '+%Y-%m-%d %H:%M:%S') $line"; done >> "$LOGFILE") 2>&1
+
+RSYNC_OPTS="-aAXv --exclude={/dev/*,/proc/*,/sys/*,/tmp/*,/run/*,/mnt/*,/media/*,/lost+found}"
 
 log() {
     echo "$*" 
 }
 
-# === CONFIG ===
-SRC="/path/to/source"
-DEST="/path/to/backup"
-
 log "=== Backup script started ==="
+
+log "%0, LOGFILE=$LOGFILE, SRC=$SRC, DEST=$DEST"
 
 run_backup() {
     YEAR=$(date '+%Y')
@@ -38,21 +38,25 @@ run_backup() {
     PREV_BACK=$(find "$DEST" -type d \( -name "*_H" -o -name "*_D" -o -name "*_M" -o -name "*_Y" \) \
         -printf "%T@ %p\n" | sort -nr | head -n1 | cut -d' ' -f2)
 
+    log " "
+
     if [ -n "$PREV_BACK" ] && [ -d "$PREV_BACK" ]; then
         log "Using previous backup for hard-linking: $PREV_BACK"
-        if ! rsync -a --delete --link-dest="$PREV_BACK" "$SRC/" "$TMP_BACK/"; then
+        if ! rsync $RSYNC_OPTS --delete --link-dest="$PREV_BACK" "$SRC/" "$TMP_BACK/"; then
             log "ERROR: rsync failed during incremental backup. Cleaning up."
             rm -rf "$TMP_BACK"
             exit 1
         fi
     else
         log "No previous backup found, doing full copy"
-        if ! rsync -a --delete "$SRC/" "$TMP_BACK/"; then
+        if ! rsync $RSYNC_OPTS --delete "$SRC/" "$TMP_BACK/"; then
             log "ERROR: rsync failed during full backup. Cleaning up."
             rm -rf "$TMP_BACK"
             exit 1
         fi
     fi
+
+    log " "
 
     mv "$TMP_BACK" "$CURR_BACK"
     log "Backup completed and moved to final directory: $CURR_BACK"
@@ -156,6 +160,14 @@ case "${1:-}" in
         ;;
 esac
 
+du "$DEST" -h --max-depth=4 | grep '_.$'
+
 log "=== Backup script finished ==="
+
+
+log ""
+log "****************************************"
+log "****************************************"
+log ""
 
 exit 0
