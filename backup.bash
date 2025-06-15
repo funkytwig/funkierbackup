@@ -160,7 +160,7 @@ case "${1:-}" in
         ;;
 esac
 
-du "$DEST" -h --max-depth=4 | grep '_.$'
+du "$DEST" -h --max-depth=4 | grep '_.$' | sort -k2
 
 log "=== Backup script finished ==="
 
