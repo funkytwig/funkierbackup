@@ -163,7 +163,7 @@ esac
 
 log ""
 
-./dir_usage.bash "$DEST" --depth=4 | sort -V
+./dir_usage.bash "$DEST" --depth=4 
 
 log ""
 log "****************************************"
