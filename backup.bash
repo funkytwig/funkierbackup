@@ -12,9 +12,7 @@ log() {
     echo "$*" 
 }
 
-log "=== Backup script started ==="
-
-log "%0, LOGFILE=$LOGFILE, SRC=$SRC, DEST=$DEST"
+log "$0, LOGFILE=$LOGFILE, SRC=$SRC, DEST=$DEST"
 
 run_backup() {
     YEAR=$(date '+%Y')
@@ -118,6 +116,7 @@ delete_dirs() {
 }
 
 cleanup_old_backups() {
+    log ""
     log "Starting cleanup of old backups"
 
     log "Cleaning hourly backups, keeping latest 24"
@@ -160,10 +159,11 @@ case "${1:-}" in
         ;;
 esac
 
-du "$DEST" -h --max-depth=4 | grep '_.$' | sort -k2
+# du "$DEST" -h --max-depth=4 | grep '_.$' | awk '{print $2, $1}' | sort -V
 
-log "=== Backup script finished ==="
+log ""
 
+./dir_usage.bash "$DEST" --depth=4 | sort -V
 
 log ""
 log "****************************************"
